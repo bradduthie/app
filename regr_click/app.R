@@ -38,7 +38,6 @@ server <- function(input, output) {
     values$eqn       <- 0;
     values$eqn_val   <- NA;
     
-    
     observeEvent(input$rmnds, {
         values$dat <- NA;
         values$B0  <- NA;
@@ -77,7 +76,7 @@ server <- function(input, output) {
 
     
     output$distPlot <- renderPlot({
-        if(!is.na(values$dat)){
+        if(!is.na(values$dat[[1]][1])){
             values$ypred <- input$b0 + values$dat$x * input$b1;
             if(values$B0 == input$b0 & values$B1 == input$b1){
               plot(x = values$dat$x, y = values$dat$y, xlim = c(0, 6), 
@@ -125,7 +124,7 @@ server <- function(input, output) {
                      xlab = "Elevation (km)", cex.lab = 1.5, cex.axis = 1.5,
                      pch = 20, cex = 2);
                 abline(a = input$b0, b = input$b1, col = "black", lwd = 3);
-                if(values$eqn > 0 & input$b1 > 0){
+                if(values$eqn[[1]] > 0 & input$b1[[1]] > 0){
                     eqvl <- paste("y = ", input$b0, " + ", input$b1, "x", 
                                   sep = "");
                     text(x = 0.5, y = -3, labels = eqvl, 
