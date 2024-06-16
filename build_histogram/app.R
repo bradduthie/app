@@ -1,8 +1,4 @@
 library(shiny);
-library(knitr);
-library(TeachingDemos);
-library(png);
-library(ggplot2)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -38,11 +34,6 @@ server <- function(input, output) {
         return(list(x=xd, y=yd));
     }
     
-    l_sparrow <- readPNG("livesparrow.png");
-    ms.rasterImage <- function(imgs, which=1, ...) {
-        rasterImage(imgs[[which]], -1, -1, 1, 1)
-    }
-    logos  <- list(as.raster(l_sparrow))
     datall <- read.csv("Bumpus_data.csv", header = TRUE);
     dat    <- datall;
     totlen <- as.numeric(dat[,3]);
@@ -70,13 +61,17 @@ server <- function(input, output) {
                  add = TRUE);
             axis(side = 1, at = minlen:maxlen, cex.axis = 1.5, lwd = 3, 
                  line = -0.75);
-            size  <- 0.002 * (totlen + 10*(totlen - mean(totlen)));
+            size  <- 0.02 * (totlen + 10*(totlen - mean(totlen)));
             par(mar = c(0, 0, 0, 0), lwd = 1, xaxt = "n", yaxt = "n");
-            my.symbols( xloc[1:N1], yloc[1:N1], ms.rasterImage, 
-                        MoreArgs=list(imgs=logos),
-                        inches = size[1:N1], symb.plots=TRUE, add=FALSE,
-                        xlim = c(0, 1), ylim = c(0, 1), xaxt = "n",
-                        yaxt = "n", ylab = "", xlab = "");
+            plot(x = xloc[1:N1], yloc[1:N1], pch = "-", xlim = c(0, 1), 
+                 ylim = c(0, 1), xaxt = "n", yaxt = "n", ylab = "", 
+                 xlab = "", cex = 4*size[1:N1], bg = "grey", col = "black");
+            points(x = xloc[1:N1], yloc[1:N1]-0.02, pch = "^", xlim = c(0, 1), 
+                   ylim = c(0, 1), xaxt = "n", yaxt = "n", ylab = "", 
+                   xlab = "", cex = 1.5*size[1:N1], col = "orange"); 
+            points(x = xloc[1:N1], yloc[1:N1], pch = 25, xlim = c(0, 1), 
+                 ylim = c(0, 1), xaxt = "n", yaxt = "n", ylab = "", 
+                 xlab = "", cex = size[1:N1], bg = "blue");
             lenmeas <- paste("Measured Length = ", totlen[N1], " (mm)");
             text(x = 0.6, y = 0.99, labels = lenmeas, col = "blue", cex = 1.8,
                  bg = "grey");
@@ -84,11 +79,9 @@ server <- function(input, output) {
             axis(side = 1, at = minlen:maxlen, cex.axis = 1.5, lwd = 3, 
                  line = -0.75);
             par(mar = c(0, 0, 0, 0), lwd = 1, xaxt = "n", yaxt = "n");
-            my.symbols( xloc[1:N1], yloc[1:N1], ms.rasterImage, 
-                        MoreArgs=list(imgs=logos),
-                        inches = 0, symb.plots=TRUE, add=FALSE,
-                        xlim = c(0, 1), ylim = c(0, 1), xaxt = "n",
-                        yaxt = "n", ylab = "", xlab = "", type = "n");
+            plot(x = xloc[1:N1], yloc[1:N1], pch = 25, xlim = c(0, 1), 
+                 ylim = c(0, 1), xaxt = "n", yaxt = "n", ylab = "", 
+                 xlab = "", type = "n", bg = "blue");
         }
     })
   
