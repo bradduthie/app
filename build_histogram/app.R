@@ -24,7 +24,7 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    set.seed(100);
+    # set.seed(100);
     
     mbox <- function(x0, x1, y0, y1){
         xx <- seq(from=x0, to=x1, length.out = 100);
